@@ -12,6 +12,12 @@ public class TakingTurnsQueueTests
     // run until the queue is empty
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
     // Defect(s) Found: 
+
+    // Requirement: Queue must handle finite turns correctly
+    // Scenario: Queue with Bob(2), Tim(5), Sue(3) processed until empty
+    // Expected: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
+    // Result: PASS after fixing turn decrement logic and queue order
+
     public void TestTakingTurnsQueue_FiniteRepetition()
     {
         var bob = new Person("Bob", 2);
@@ -44,6 +50,12 @@ public class TakingTurnsQueueTests
     // After running 5 times, add George with 3 turns.  Run until the queue is empty.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, George, Sue, Tim, George, Tim, George
     // Defect(s) Found: 
+
+    // Requirement: Queue must allow adding players mid-processing
+    // Scenario: Add George after 5 turns with initial queue Bob(2), Tim(5), Sue(3)
+    // Expected: Bob, Tim, Sue, Bob, Tim, Sue, Tim, George, Sue, Tim, George, Tim, George
+    // Result: PASS after ensuring proper queue ordering
+
     public void TestTakingTurnsQueue_AddPlayerMidway()
     {
         var bob = new Person("Bob", 2);
@@ -86,6 +98,12 @@ public class TakingTurnsQueueTests
     // Run 10 times.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
     // Defect(s) Found: 
+
+    // Requirement: Queue must handle infinite turns (turns <= 0)
+    // Scenario: Queue with Bob(2), Tim(0-infinite), Sue(3) run 10 times
+    // Expected: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
+    // Result: PASS after adding infinite turns handling
+
     public void TestTakingTurnsQueue_ForeverZero()
     {
         var timTurns = 0;
@@ -117,6 +135,12 @@ public class TakingTurnsQueueTests
     // Run 10 times.
     // Expected Result: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
     // Defect(s) Found: 
+
+    // Requirement: Negative turns should be treated as infinite
+    // Scenario: Queue with Tim(-3-infinite), Sue(3) run 10 times
+    // Expected: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
+    // Result: PASS after fixing negative turns handling
+
     public void TestTakingTurnsQueue_ForeverNegative()
     {
         var timTurns = -3;
@@ -143,7 +167,13 @@ public class TakingTurnsQueueTests
     [TestMethod]
     // Scenario: Try to get the next person from an empty queue
     // Expected Result: Exception should be thrown with appropriate error message.
-    // Defect(s) Found: 
+    // Defect(s) Found:
+
+    // Requirement: Empty queue should throw exception
+    // Scenario: Dequeue from empty queue
+    // Expected: InvalidOperationException with message "No one in the queue."
+    // Result: PASS (original implementation was correct)
+
     public void TestTakingTurnsQueue_Empty()
     {
         var players = new TakingTurnsQueue();
